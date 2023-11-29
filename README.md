@@ -1,5 +1,5 @@
 # Chat-Application
-It is an realtime chat application using React JS &amp; Firebase.
+It is an Realtime Chat Application using React JS &amp; Firebase.
 
 # [![App Image](https://github.com/AakashTheDev/Images/blob/aec7957c3076a2f81ccbd75678b2b30947ac168e/Chat%20Login%20Screen.png)](https://devaakashportfolio.w3spaces.com)
 
