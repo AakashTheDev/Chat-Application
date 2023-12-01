@@ -48,7 +48,7 @@ function Signin() {
         <div className="flex justify-center items-center h-full">
           <div className="flex flex-col w-full lg:w-1/2 bg-white bg-cover bg-center h-screen" style={{ backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${Logo})`, backgroundBlendMode: 'multiply' }}>
             <h2 className="tracking-wide text-center font-bold underline text-white">
-              WELCOME TO MY CHAT APP
+              WELCOME TO MY CHAT ROOM
             </h2>
             <div className="flex justify-center items-center h-[100vh]">
               <button
