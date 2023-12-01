@@ -27,6 +27,7 @@ import {
   limit,
   addDoc,
   arrayUnion,
+  onSnapshot,
 } from "firebase/firestore";
 import { db } from "../Firebase/Firebase";
 import { useNavigate } from "react-router-dom";
@@ -58,20 +59,28 @@ function Chatroom() {
     });
   }, []);
 
-  const getData = async () => {
+  const getData = () => {
     const docRef = query(collection(db, "Chats"), orderBy("date", "asc"));
-    const snapShot = await getDocs(docRef);
-    let data = snapShot.docs.map((doc) => ({
-      ...doc.data(),
-      id: doc.id,
-    }));
-    setMessages(data);
-  }
-
+  
+    const unsubscribe = onSnapshot(docRef, (snapshot) => {
+      const data = snapshot.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }));
+      setMessages(data);
+    });
+  
+    return unsubscribe;
+  };
+  
   useEffect(() => {
-    getData()
+    const unsubscribe = getData();
+  
+    return () => {
+      unsubscribe();
+    };
   }, []);
-
+  
   const logOutButton = async (e) => {
     e.preventDefault();
     await signOut(auth).then(() => {
@@ -122,7 +131,7 @@ function Chatroom() {
             <div className="flex justify-between gap-2">
               <div className="flex p-2 px-2 gap-2">
                 <h2 className="tracking-wide text-center font-bold underline text-white flex-grow">
-                  WELCOME TO MY CHAT APP
+                  WELCOME TO MY CHAT ROOM
                 </h2>
                 <div className="">
                   <button
@@ -181,7 +190,7 @@ function Chatroom() {
                               : "text-[#00355f]"
                               }`}
                           >
-                            {data.name}
+                            {data?.name}
                           </span>
                         </div>
                       </div>
@@ -194,7 +203,7 @@ function Chatroom() {
               })}
             </div>
             <div className="flex justify-center items-center gap-2">
-              <form className="flex gap-2 m-2 w-[740px] fixed bottom-0" onSubmit={uploadFunc}>
+              <form className="flex flex-col lg:flex-row gap-2 m-2 w-auto lg:w-[740px] fixed bottom-0" onSubmit={uploadFunc}>
                 <input
                   type="text"
                   className="w-full p-2 text-[#00355f] rounded-lg border-2 border-white outline-white"
